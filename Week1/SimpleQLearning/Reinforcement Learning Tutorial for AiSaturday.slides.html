@@ -11905,7 +11905,8 @@ a.anchor-link {
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Learning-how-to-use-simple-Q-learning">Learning how to use simple Q learning<a class="anchor-link" href="#Learning-how-to-use-simple-Q-learning">&#182;</a></h2><h2 id="@-AISaturdays-Singapore">@ AISaturdays Singapore<a class="anchor-link" href="#@-AISaturdays-Singapore">&#182;</a></h2><h4 id="By-Nasrudin-Salim">By Nasrudin Salim<a class="anchor-link" href="#By-Nasrudin-Salim">&#182;</a></h4>
+<h2 id="Learning-how-to-use-simple-Q-learning">Learning how to use simple Q learning<a class="anchor-link" href="#Learning-how-to-use-simple-Q-learning">&#182;</a></h2><h2 id="@-AISaturdays-Singapore">@ AISaturdays Singapore<a class="anchor-link" href="#@-AISaturdays-Singapore">&#182;</a></h2><h4 id="By-Nasrudin-Salim">By Nasrudin Salim<a class="anchor-link" href="#By-Nasrudin-Salim">&#182;</a></h4><p><a href="https://github.com/Nasdin/AISaturdayTutorials">https://github.com/Nasdin/AISaturdayTutorials</a></p>
+
 </div>
 </div>
 </div></section></section><section><section>
@@ -12119,7 +12120,7 @@ Create an algorithm to allow the agent to solve the problem and go towards the t
     <span class="k">if</span> <span class="n">State</span> <span class="o">==</span> <span class="s1">&#39;treasure&#39;</span><span class="p">:</span>
         <span class="n">interaction</span> <span class="o">=</span> <span class="s1">&#39;Episode </span><span class="si">%s</span><span class="s1">: total_steps = </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">episode</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">step_counter</span><span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">interaction</span><span class="p">),</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
-        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.5</span><span class="p">)</span> <span class="c1">#add a delay so humans can observe</span>
+        <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#add a delay so humans can observe</span>
         <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">                                &#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="c1">#if the state is still numeric, means it&#39;s somewhere other than at the treasure</span>
     <span class="k">else</span><span class="p">:</span>
@@ -12252,32 +12253,49 @@ Create an algorithm to allow the agent to solve the problem and go towards the t
 </div></div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="prompt input_prompt">In&nbsp;[25]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_table</span> <span class="o">=</span> <span class="n">build_q_table</span><span class="p">(</span><span class="n">N_STATES</span><span class="p">,</span> <span class="n">ACTIONS</span><span class="p">)</span>
 
+<span class="c1">#Episode loop</span>
 <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_EPISODES</span><span class="p">):</span>
     <span class="n">step_counter</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">State</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">is_terminated</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="c1">#Draw out the environment on the console/ output for humans to see</span>
     <span class="n">update_env</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">episode</span><span class="p">,</span> <span class="n">step_counter</span><span class="p">)</span>
+    <span class="c1">#Step loops while not completed task</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">is_terminated</span><span class="p">:</span>
 
+        <span class="c1">#The agent chooses an action</span>
         <span class="n">Action</span> <span class="o">=</span> <span class="n">choose_action</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">q_table</span><span class="p">)</span>
-        <span class="n">S_</span><span class="p">,</span> <span class="n">ReachedTreasure</span> <span class="o">=</span> <span class="n">get_env_feedback</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">)</span>  <span class="c1"># take action &amp; get next state and reward</span>
+        
+        <span class="c1"># take action &amp; get next state and reward</span>
+        <span class="n">S_</span><span class="p">,</span> <span class="n">ReachedTreasure</span> <span class="o">=</span> <span class="n">get_env_feedback</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">)</span>
+        
+        <span class="c1"># get the predicted probability of expected reward by looking up the q_table based on the action</span>
         <span class="n">q_predict</span> <span class="o">=</span> <span class="n">q_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">S_</span> <span class="o">!=</span> <span class="s1">&#39;treasure&#39;</span><span class="p">:</span>
-            <span class="n">q_target</span> <span class="o">=</span> <span class="n">ReachedTreasure</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">q_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">S_</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>   <span class="c1"># next state is not treasure</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">q_target</span> <span class="o">=</span> <span class="n">ReachedTreasure</span>     <span class="c1"># next state is treasure</span>
+        
+        <span class="c1">#if next state is not treasure</span>
+        <span class="k">if</span> <span class="n">S_</span> <span class="o">!=</span> <span class="s1">&#39;treasure&#39;</span><span class="p">:</span>  
+            
+            <span class="c1">#Forms the q_target by the Q learning algorithm formula</span>
+            <span class="n">q_target</span> <span class="o">=</span> <span class="n">ReachedTreasure</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">q_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">S_</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>  
+        <span class="c1">#if next state is not treasure</span>
+        <span class="k">else</span><span class="p">:</span>  
+            <span class="n">q_target</span> <span class="o">=</span> <span class="n">ReachedTreasure</span>    
             <span class="n">is_terminated</span> <span class="o">=</span> <span class="kc">True</span>    <span class="c1"># terminate this episode</span>
+        
+        <span class="c1">#updates the Q probability based on the difference between the target and predicted Q multiplied by learning rate</span>
+        <span class="n">q_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ALPHA</span> <span class="o">*</span> <span class="p">(</span><span class="n">q_target</span> <span class="o">-</span> <span class="n">q_predict</span><span class="p">)</span>
+        
+        <span class="c1">#Update the current state with the new state( after carrying out the action)</span>
+        <span class="n">State</span> <span class="o">=</span> <span class="n">S_</span> 
 
-        <span class="n">q_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ALPHA</span> <span class="o">*</span> <span class="p">(</span><span class="n">q_target</span> <span class="o">-</span> <span class="n">q_predict</span><span class="p">)</span>  <span class="c1"># update</span>
-        <span class="n">State</span> <span class="o">=</span> <span class="n">S_</span>  <span class="c1"># move to next state</span>
-
+        <span class="c1">#update environment</span>
         <span class="n">update_env</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">episode</span><span class="p">,</span> <span class="n">step_counter</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1">#Step counter for metrics and training</span>
         <span class="n">step_counter</span> <span class="o">+=</span> <span class="mi">1</span>
 
 
@@ -12309,11 +12327,11 @@ Create an algorithm to allow the agent to solve the problem and go towards the t
 4   0.0    0.0
 5   0.0    0.0
                                        left     right
-0  0.000040  0.033417
-1  0.000025  0.110328
-2  0.000051  0.294569
-3  0.026637  0.569068
-4  0.044317  0.878423
+0  0.000255  0.010943
+1  0.000788  0.050048
+2  0.003915  0.150146
+3  0.003765  0.391220
+4  0.014662  0.771232
 5  0.000000  0.000000
 </pre>
 </div>
@@ -12357,7 +12375,7 @@ left     right
 </div><div class="fragment">
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="prompt input_prompt">In&nbsp;[26]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="k">def</span> <span class="nf">StartNew</span><span class="p">(</span><span class="n">New</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
@@ -12378,32 +12396,49 @@ left     right
 </div></div></section></section><section><section>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[22]:</div>
+<div class="prompt input_prompt">In&nbsp;[27]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">q_table</span> <span class="o">=</span> <span class="n">StartNew</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
 
+<span class="c1">#Episode loop</span>
 <span class="k">for</span> <span class="n">episode</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">MAX_EPISODES</span><span class="p">):</span>
     <span class="n">step_counter</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">State</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">is_terminated</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="c1">#Draw out the environment on the console/ output for humans to see</span>
     <span class="n">update_env</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">episode</span><span class="p">,</span> <span class="n">step_counter</span><span class="p">)</span>
+    <span class="c1">#Step loops while not completed task</span>
     <span class="k">while</span> <span class="ow">not</span> <span class="n">is_terminated</span><span class="p">:</span>
 
+        <span class="c1">#The agent chooses an action</span>
         <span class="n">Action</span> <span class="o">=</span> <span class="n">choose_action</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">q_table</span><span class="p">)</span>
-        <span class="n">S_</span><span class="p">,</span> <span class="n">ReachedTreasure</span> <span class="o">=</span> <span class="n">get_env_feedback</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">)</span>  <span class="c1"># take action &amp; get next state and reward</span>
+        
+        <span class="c1"># take action &amp; get next state and reward</span>
+        <span class="n">S_</span><span class="p">,</span> <span class="n">ReachedTreasure</span> <span class="o">=</span> <span class="n">get_env_feedback</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">)</span>
+        
+        <span class="c1"># get the predicted probability of expected reward by looking up the q_table based on the action</span>
         <span class="n">q_predict</span> <span class="o">=</span> <span class="n">q_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">S_</span> <span class="o">!=</span> <span class="s1">&#39;treasure&#39;</span><span class="p">:</span>
-            <span class="n">q_target</span> <span class="o">=</span> <span class="n">ReachedTreasure</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">q_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">S_</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>   <span class="c1"># next state is not treasure</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">q_target</span> <span class="o">=</span> <span class="n">ReachedTreasure</span>     <span class="c1"># next state is treasure</span>
+        
+        <span class="c1">#if next state is not treasure</span>
+        <span class="k">if</span> <span class="n">S_</span> <span class="o">!=</span> <span class="s1">&#39;treasure&#39;</span><span class="p">:</span>  
+            
+            <span class="c1">#Forms the q_target by the Q learning algorithm formula</span>
+            <span class="n">q_target</span> <span class="o">=</span> <span class="n">ReachedTreasure</span> <span class="o">+</span> <span class="n">GAMMA</span> <span class="o">*</span> <span class="n">q_table</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">S_</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>  
+        <span class="c1">#if next state is not treasure</span>
+        <span class="k">else</span><span class="p">:</span>  
+            <span class="n">q_target</span> <span class="o">=</span> <span class="n">ReachedTreasure</span>    
             <span class="n">is_terminated</span> <span class="o">=</span> <span class="kc">True</span>    <span class="c1"># terminate this episode</span>
+        
+        <span class="c1">#updates the Q probability based on the difference between the target and predicted Q multiplied by learning rate</span>
+        <span class="n">q_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ALPHA</span> <span class="o">*</span> <span class="p">(</span><span class="n">q_target</span> <span class="o">-</span> <span class="n">q_predict</span><span class="p">)</span>
+        
+        <span class="c1">#Update the current state with the new state( after carrying out the action)</span>
+        <span class="n">State</span> <span class="o">=</span> <span class="n">S_</span> 
 
-        <span class="n">q_table</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">State</span><span class="p">,</span> <span class="n">Action</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ALPHA</span> <span class="o">*</span> <span class="p">(</span><span class="n">q_target</span> <span class="o">-</span> <span class="n">q_predict</span><span class="p">)</span>  <span class="c1"># update</span>
-        <span class="n">State</span> <span class="o">=</span> <span class="n">S_</span>  <span class="c1"># move to next state</span>
-
+        <span class="c1">#update environment</span>
         <span class="n">update_env</span><span class="p">(</span><span class="n">State</span><span class="p">,</span> <span class="n">episode</span><span class="p">,</span> <span class="n">step_counter</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1">#Step counter for metrics and training</span>
         <span class="n">step_counter</span> <span class="o">+=</span> <span class="mi">1</span>
 
 
@@ -12427,7 +12462,7 @@ left     right
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>Episode 6: total_steps = 5      </pre>
+<pre>Episode 4: total_steps = 5      </pre>
 </div>
 </div>
 
@@ -12440,12 +12475,12 @@ left     right
 <pre>
 <span class="ansi-red-fg">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg">KeyboardInterrupt</span>                         Traceback (most recent call last)
-<span class="ansi-green-fg">&lt;ipython-input-22-66dc9f25a17a&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
-<span class="ansi-green-intense-fg ansi-bold">     21</span>         State <span class="ansi-blue-fg">=</span> S_  <span class="ansi-red-fg"># move to next state</span>
-<span class="ansi-green-intense-fg ansi-bold">     22</span> 
-<span class="ansi-green-fg">---&gt; 23</span><span class="ansi-red-fg">         </span>update_env<span class="ansi-blue-fg">(</span>State<span class="ansi-blue-fg">,</span> episode<span class="ansi-blue-fg">,</span> step_counter<span class="ansi-blue-fg">+</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span>
-<span class="ansi-green-intense-fg ansi-bold">     24</span>         step_counter <span class="ansi-blue-fg">+=</span> <span class="ansi-cyan-fg">1</span>
-<span class="ansi-green-intense-fg ansi-bold">     25</span> 
+<span class="ansi-green-fg">&lt;ipython-input-27-9d1f7cbcdfab&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">     37</span> 
+<span class="ansi-green-intense-fg ansi-bold">     38</span>         <span class="ansi-red-fg">#update environment</span>
+<span class="ansi-green-fg">---&gt; 39</span><span class="ansi-red-fg">         </span>update_env<span class="ansi-blue-fg">(</span>State<span class="ansi-blue-fg">,</span> episode<span class="ansi-blue-fg">,</span> step_counter<span class="ansi-blue-fg">+</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     40</span>         <span class="ansi-red-fg">#Step counter for metrics and training</span>
+<span class="ansi-green-intense-fg ansi-bold">     41</span>         step_counter <span class="ansi-blue-fg">+=</span> <span class="ansi-cyan-fg">1</span>
 
 <span class="ansi-green-fg">&lt;ipython-input-10-ab7e289971be&gt;</span> in <span class="ansi-cyan-fg">update_env</span><span class="ansi-blue-fg">(State, episode, step_counter)</span>
 <span class="ansi-green-intense-fg ansi-bold">     11</span>         interaction <span class="ansi-blue-fg">=</span> <span class="ansi-blue-fg">&#39;Episode %s: total_steps = %s&#39;</span> <span class="ansi-blue-fg">%</span> <span class="ansi-blue-fg">(</span>episode<span class="ansi-blue-fg">+</span><span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">,</span> step_counter<span class="ansi-blue-fg">)</span>
